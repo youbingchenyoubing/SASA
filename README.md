@@ -4,7 +4,9 @@ pySBHD
 SASA-based Hot-spot Detection for protein-protein and protein - nucleic acid interactions
 
 
-Python scripts using OS system, VMD and Weka commands to predict hot-spots.
+Python scripts use VMD and Weka commands to predict interaction hot-spots. The implementation of these tools could be found at:
+
+[http://bio-aims.udc.es/MolStructPred.php](http://bio-aims.udc.es/MolStructPred.php)
 
 
 Collaborations between two universities:
