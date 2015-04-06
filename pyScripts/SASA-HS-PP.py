@@ -443,7 +443,7 @@ def RunSASA_VMD(PDBor,Mon1,Mon2,sFileConsurf):
     # [6] Interface amino acids
     # Write scripts for P-P interface amino acids
     GetInterfaceResidues1("script_residues1", "residues1",PDBor,Monomer1,Monomer2)
-    GetInterfaceResidues2("script_residues2", "residues2",PDBor,Monomer2,Monomer1)
+    GetInterfaceResidues2("script_residues2", "residues2",PDBor,Monomer1,Monomer2)
 
     # Calculate the P-P interface AA
     cmd='..\\..\\VMD\\vmd -dispdev text -e script_residues1'
