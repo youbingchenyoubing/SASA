@@ -204,7 +204,7 @@ def GetInterfaceResidues2(scriptF,outF,sPDB,Monomer1,Monomer2):
     for i in range(1,len(Monomer1)):
         f.write(" or chain "+Monomer1[i])
     f.write(")\"]\n")
-    f.write("$sel1 get {resid resname}\nset sel2 [$sel1 get {resid chain resname}]\nputs $outfile \"$sel2\"\nclose $outfile\nquit\nexit")
+    f.write("$sel1 get {resid resname}\nset sel2 [$sel1 get {resid resname}]\nputs $outfile \"$sel2\"\nclose $outfile\nquit\nexit")
 
     f.close()
     return
