@@ -12,3 +12,8 @@ Python scripts use VMD and Weka commands to predict interaction hot-spots. The i
 Collaborations between two universities:
 - University of A Coruna, Spain
 - University of Porto, Portugal
+
+
+安装vmd和weka使用
+
+python pythonscript pdbid chainid parterchainid consurfgrades

@@ -101,7 +101,7 @@ foreach bp { GUA CYT ADE THY URA } {
 def Create_monomers(sFile,PDB,Monomer1,Monomer2):
     f = open(sFile,'w')
     f.write("mol new "+PDB+"_Hs.pdb\n")
-    
+    print "sFile= ",sFile 
     f.write("set monomer1 [atomselect top \""+"chain "+Monomer1[0])
     for i in range(1,len(Monomer1)):
         f.write(" or chain "+Monomer1[i])
@@ -266,6 +266,7 @@ def CorrectResults(sFile,sNewFile,PDB,Monomers):
     # Open first file to be modified
     f = open(sFile,"r")
     lines=f.readlines()
+    print lines
     f.close()
 
     # Open the new file
@@ -390,7 +391,7 @@ def RunSASA_VMD(PDBor,Mon1,Mon2,sFileConsurf):
     print "PDB file = ",PDBfile
     print "Monomer 1 = ",Monomer1
     print "Monomer 2 = ",Monomer2
-
+    print "PDBor= ",PDBor
     # [1] Convert PDB in PDB ATOM
     WritePDB_ATOM(PDBor,Monomer1,Monomer2)
 
@@ -398,13 +399,13 @@ def RunSASA_VMD(PDBor,Mon1,Mon2,sFileConsurf):
     # Generate spefici AddH script
     AddH("script_AddH",PDB,Monomer1,Monomer2)
     # run AddH script
-    cmd='..\\..\\VMD\\vmd -dispdev text -e script_AddH>script_AddH.out'
+    cmd='vmd -dispdev text -e script_AddH>script_AddH.out'
     print cmd
     os.system(cmd)
 
     # [3]Create 2 monomers
     Create_monomers("script_create_monomers",PDB,Monomer1,Monomer2)
-    cmd='..\\..\\VMD\\vmd -dispdev text -e script_create_monomers>script_create_monomers.out'
+    cmd='vmd -dispdev text -e script_create_monomers>script_create_monomers.out'
     print cmd
     os.system(cmd)
 
@@ -412,24 +413,24 @@ def RunSASA_VMD(PDBor,Mon1,Mon2,sFileConsurf):
 
     # for the complex
     RunSASA("script_runSASA",PDB)
-    cmd='..\\..\\VMD\\vmd -dispdev text -e script_runSASA > script_runSASA.out'
+    cmd='vmd -dispdev text -e script_runSASA > script_runSASA.out'
     print cmd
     os.system(cmd)
-    os.system('move res_sasa.dat res_sasa1.dat')
+    os.system('mv res_sasa.dat res_sasa1.dat')
 
     # for the monomer 1
     RunSASA_mon1("script_runSASA_mon1",PDB)
-    cmd='..\\..\\VMD\\vmd -dispdev text -e script_runSASA_mon1 > script_runSASA_mon1.out'
+    cmd='vmd -dispdev text -e script_runSASA_mon1 > script_runSASA_mon1.out'
     print cmd
     os.system(cmd)
-    os.system('move res_sasa.dat res_sasaA1.dat')
+    os.system('mv res_sasa.dat res_sasaA1.dat')
 
     # for the monomer 2
     RunSASA_mon2("script_runSASA_mon2",PDB)
-    cmd='..\\..\\VMD\\vmd -dispdev text -e script_runSASA_mon2 > script_runSASA_mon2.out'
+    cmd='vmd -dispdev text -e script_runSASA_mon2 > script_runSASA_mon2.out'
     print cmd
     os.system(cmd)
-    os.system('move res_sasa.dat res_sasaB1.dat')
+    os.system('mv res_sasa.dat res_sasaB1.dat')
 
     # [5]Feature calculation using SASA_features.py => result.csv
     cmd='python SASA_features.py'
@@ -446,11 +447,11 @@ def RunSASA_VMD(PDBor,Mon1,Mon2,sFileConsurf):
     GetInterfaceResidues2("script_residues2", "residues2",PDBor,Monomer1,Monomer2)
 
     # Calculate the P-P interface AA
-    cmd='..\\..\\VMD\\vmd -dispdev text -e script_residues1'
+    cmd='vmd -dispdev text -e script_residues1'
     print cmd
     os.system(cmd)
 
-    cmd='..\\..\\VMD\\vmd -dispdev text -e script_residues2'
+    cmd='vmd -dispdev text -e script_residues2'
     print cmd
     os.system(cmd)
 
@@ -502,6 +503,15 @@ WebPDBFile=str(sys.argv[1])
 WebMon1=str(sys.argv[2])
 WebMon2=str(sys.argv[3])
 WebConsurf=str(sys.argv[4])
+'''import pymol
+from pymol import cmd,stored,math
+dirname=os.getcwd()+'/'+WebPDBFile.split('.')[0]
+print dirname
+pymol.finish_launching()
+cmd.load(dirname)
+cmd.remove('hetatm')
+cmd.save(dirname)
+cmd.quit()'''
 
 ##WebPDBFile="1VFB.pdb"
 ##WebMon1="A,B"
